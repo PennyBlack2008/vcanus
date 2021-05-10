@@ -59,14 +59,20 @@ void	ButterBread::info(void)
 				<< "butter: " << this->mVarType << "\n" << std::endl;
 }
 
-
-Bread* Bread::makeBread(const std::string& type, int flour, int water, int varType)
+/* if 문을 사용하지 않고 저장할 수 있는 구조를 만들자 */
+Bread* Boulangerie::makeCreamBread(const std::string& type, int flour, int water, int varType)
 {
-	if (!type.compare("cream"))
-		return (new CreamBread(type, flour, water, varType));
-	else if (!type.compare("sugar"))
-		return (new SugarBread(type, flour, water, varType));
-	else if (!type.compare("butter"))
-		return (new ButterBread(type, flour, water, varType));
-	return (NULL);
+	return (new CreamBread(type, flour, water, varType));
+}
+
+/* if 문을 사용하지 않고 저장할 수 있는 구조를 만들자 */
+Bread* Boulangerie::makeSugarBread(const std::string& type, int flour, int water, int varType)
+{
+	return (new SugarBread(type, flour, water, varType));
+}
+
+/* if 문을 사용하지 않고 저장할 수 있는 구조를 만들자 */
+Bread* Boulangerie::makeButterBread(const std::string& type, int flour, int water, int varType)
+{
+	return (new ButterBread(type, flour, water, varType));
 }

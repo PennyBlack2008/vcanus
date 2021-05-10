@@ -4,11 +4,19 @@
 #include <iostream>
 #include <string>
 
+class Bread;
+// Bread Factory
+class Boulangerie
+{
+public:
+	static Bread* makeCreamBread(const std::string& type, int flour, int water, int varType);
+	static Bread* makeSugarBread(const std::string& type, int flour, int water, int varType);
+	static Bread* makeButterBread(const std::string& type, int flour, int water, int varType);
+};
+
 class Bread
 {
 public:
-	//Factory 함수 -> makeBread
-	static Bread* makeBread(const std::string& type, int flour, int water, int varType);
 	virtual void info() = 0;
 	virtual ~Bread();
 };

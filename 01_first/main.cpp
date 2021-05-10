@@ -102,7 +102,12 @@ int main(int argc, char** argv)
 				exit(1);
 			}
 
-			data.push_back(Bread::makeBread(BreadType, flour, water, typeAmount));
+			if (BreadType.compare("cream"))
+				data.push_back(Boulangerie::makeCreamBread(BreadType, flour, water, typeAmount));
+			if (BreadType.compare("sugar"))
+				data.push_back(Boulangerie::makeSugarBread(BreadType, flour, water, typeAmount));
+			if (BreadType.compare("butter"))
+				data.push_back(Boulangerie::makeButterBread(BreadType, flour, water, typeAmount));
 		}
 	}
 

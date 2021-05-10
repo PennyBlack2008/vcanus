@@ -27,7 +27,7 @@ static void	check_all_directions(char arr[][10], int num, int x, int y)
 
 int main(void)
 {
-	int num, x, y, width, height;
+	int num, x, y, width, height, limit;
 	width = 10; height = 10;
 	char pos[10][10] =
 		{
@@ -42,8 +42,13 @@ int main(void)
 			{'0', '0', '0', '0', '1', '0', '0', '0', '0', '0'}, // 9
 			{'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'} // 10
 		};
+	/* while 문 탈출 조건 계산 */
+	if (width >= height)
+		limit = height / 2 + '0';
+	else
+		limit = width / 2 + '0';
 	num = 1 + '0';
-	while (num < width + '0')
+	while (num < limit)
 	{
 		x = 0; // 세로
 		while (x < 10)
