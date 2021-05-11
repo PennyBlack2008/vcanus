@@ -1,5 +1,6 @@
 #include "Bread.hpp"
-#include <vector>
+#include <map>
+#include <string>
 #include <fstream>
 
 int main(int argc, char** argv)
@@ -7,21 +8,22 @@ int main(int argc, char** argv)
 	/*******************************
 	 *  parsing json file
 	 * *****************************/
-	std::ifstream ifs;
-	std::string line;
-	std::string::size_type pos;
-	std::string::size_type pos_quote;
-	std::string::size_type pos_comma;
+	std::ifstream			ifs;
+	std::string				line;
+	std::string::size_type	pos;
+	std::string::size_type	pos_quote;
+	std::string::size_type	pos_comma;
 
 	int flour = 0, water = 0, typeAmount = 0;
 
+	/* argument check */
 	if (argc != 2)
 	{
 		std::cout << "Error : Wrong argument\n";
 		return (-1);
 	}
 
-	/* file open*/
+	/* is file valid? */
 	ifs.open(argv[1]);
 	if (!ifs.is_open())
 	{
@@ -29,11 +31,13 @@ int main(int argc, char** argv)
 		return (-1);
 	}
 
-	std::vector<Bread*> data;
+	/* map container initialized */
+	std::map<Bread*, std::string> data;
+	std::map<Bread*, std::string>::iterator it = data.begin();
 
 	while (getline(ifs, line) != 0)
 	{
-		std::string BreadType = ""; // 항상 초기화
+		std::string BreadType = ""; // 초기화
 		flour = 0; water = 0; typeAmount = 0;
 
 		/* parse BreadType*/
@@ -42,6 +46,7 @@ int main(int argc, char** argv)
 		{
 			pos_quote = line.find("\"", pos + 14);
 			BreadType = line.substr(pos + 14, pos_quote - pos - 14); // BreadType
+
 			/* cream, sugar, butter 중 하나가  아니라면, 에러 */
 			if (!(!BreadType.compare("cream") || !BreadType.compare("sugar") || !BreadType.compare("butter")))
 			{
@@ -102,23 +107,17 @@ int main(int argc, char** argv)
 				exit(1);
 			}
 
-			if (BreadType.compare("cream"))
-				data.push_back(Boulangerie::makeCreamBread(BreadType, flour, water, typeAmount));
-			if (BreadType.compare("sugar"))
-				data.push_back(Boulangerie::makeSugarBread(BreadType, flour, water, typeAmount));
-			if (BreadType.compare("butter"))
-				data.push_back(Boulangerie::makeButterBread(BreadType, flour, water, typeAmount));
+			/* insert Bread into data container */
+			data.insert(std::pair<Bread*, std::string>(Boulangerie::makeCreamBread(BreadType, flour, water, typeAmount), BreadType));
 		}
 	}
 
 	/*******************************
 	 *  print Bread
 	 * *****************************/
-
-	for (std::vector<Bread*>::iterator it = data.begin(); it != data.end(); ++it)
-		(*it)->info();
-	for (std::vector<Bread*>::iterator it = data.begin(); it != data.end(); ++it)
-		delete(*it);
-
+	for (it = data.begin(); it != data.end(); ++it)
+		(*it).first->info();
+	for (it = data.begin(); it != data.end(); ++it)
+		delete (*it).first;
 	return (0);
 }
